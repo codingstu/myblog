@@ -6,6 +6,8 @@
     <div class="link">
       <router-link to="/ShowBlog">博客列表</router-link>
       <router-link to="/AddBlog">添加博客</router-link>
+      <router-link to="/login">登录</router-link>
+      <router-link to="/register">注册</router-link>
     </div>
   </div>
 </template>
