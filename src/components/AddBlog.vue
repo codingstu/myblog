@@ -15,14 +15,14 @@
         </div>
       </div>
 
-      <div class="row">
+      <!-- <div class="row">
         <div class="text">分类：</div>
         <div class="iptBox">
           <select v-model="blogObj.classify">
             <option v-for="item in classArr" :key='item.id'>{{item.classname}}</option>
           </select>
         </div>
-      </div>
+      </div> -->
 
       <div class="row rowArea">
         <div class="text">博客内容：</div>
@@ -38,63 +38,84 @@
         </div>
       </div>
     </div>
-    <div class="blShowBox" v-show='blogObj.title'>
+    <!-- <div class="blShowBox" v-show='blogObj.title'>
       <h1>博客预览</h1>
       <div class="row">标题：<b>{{blogObj.title}}</b></div>
       <div class="row">作者：<b>{{blogObj.author}}</b></div>
-      <div class="row">分类：<b>{{blogObj.classify}}</b></div>
       <div class="row">时间：<b>{{meDate(new Date().getTime()/1000)}}</b></div>
       <div class="row">内容：<b>{{blogObj.content}}</b></div>
-    </div>
+    </div> -->
 
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import common from '../assets/js/common'
-
 export default {
   data(){
     return{
       blogObj:{
         title:'',
-        classify:'',
         author:'',
         content:'',
       },
-      classArr:[]
   }
 },
   mounted(){
-    this.getClassify()
   },
   methods:{
-     meDate(val){
-        return common.myDate(val,5)
-           }, 
-    onSubmit(){
-      axios({
-        url:'https://ku.qingnian8.com/dataApi/blog/addBlog.php',
-        params:this.blogObj
-      }).then(res=>{
-        if(res.data.code==400){
-          alert('请填写内容')
-          return
-        }
-        this.$router.push('/ShowBlog')
-      })
+    onSubmit() {
+      const title = this.blogObj.title;
+      const author = this.blogObj.author;
+      const content = this.blogObj.content;
+         this.$http.post(
+          "/api/blog/addBlog",
+          {
+            title: title,
+            author: author,
+            content: content,
+          },
+        )
+        .then((res) => {
+          console.log(res);
+          if (res.status == 200) {
+           this.$message({
+                title: "恭喜你",
+                message: "添加成功",
+                type: "success",
+              });
+              this.$router.push({ path: "/ShowBlog" });
+            
+          } else {
+            alert(msg);
+            console.log(msg);
+          }
+        });
+            
+            
+     
     },
+    // onSubmit(){
+    //   axios({
+    //     url:'https://ku.qingnian8.com/dataApi/blog/addBlog.php',
+    //     params:this.blogObj
+    //   }).then(res=>{
+    //     if(res.data.code==400){
+    //       alert('请填写内容')
+    //       return
+    //     }
+    //     this.$router.push('/ShowBlog')
+    //   })
+    // },
     
-    getClassify(){
-      axios({
-        url:'https://ku.qingnian8.com/dataApi/blog/classBlog.php',
-        timeout:5000
-      }).then(res=>{
-        console.log(res)
-        this.classArr=res.data
-      })
-    }
+    // getClassify(){
+    //   axios({
+    //     url:'https://ku.qingnian8.com/dataApi/blog/classBlog.php',
+    //     timeout:5000
+    //   }).then(res=>{
+    //     console.log(res)
+    //     this.classArr=res.data
+    //   })
+    // }
   }
 };
 </script>

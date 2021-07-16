@@ -27,12 +27,12 @@ mounted(){
   },
 
   methods: {
-     keyDown(e){
-        //如果是回车则执行登录方法
-      if(e.keyCode == 13){
-        this.getUser();
-      }
-    },
+    //  keyDown(e){
+    //     //如果是回车则执行登录方法
+    //   if(e.keyCode == 13){
+    //     this.getUser();
+    //   }
+    // },
 
     getUser(){
        const data = {
