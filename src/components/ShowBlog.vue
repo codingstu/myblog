@@ -3,14 +3,14 @@
        <div class="list">
            <div class="item" v-for="item in blogArr" :key='item.data'>
                <div class="top">
-                   <div class="title">{{item.title}}</div>
+                   <div class="title">标题:{{item.title}}</div>
                    <div class="time">{{meDate(item.posttime)}}</div>
                </div>
                <div class="center">
-                   {{item.content}}
+                   内容:{{item.content}}
                </div>
                <div class="bottom">
-                   <div class="classtify">分类：<span>{{item.classtify}}</span></div>
+                   <!-- <div class="classtify">分类：<span>{{item.classtify}}</span></div> -->
                    <div class="author">作者：<span>{{item.author}}</span></div>
                </div>
            </div>
@@ -28,31 +28,36 @@
 import axios from 'axios'
 import common from '../assets/js/common'
 
-// console.log(common.myDate('1622184695908'))
+console.log(common.myDate('1622184695908'))
 
 export default {
     name:'ShowBlog',
     data(){
         return{
+            title:'',
+            author:'',
+            content:'',
             blogArr:[],
             p:1
         }
     },
     mounted(){
-       this.getData()
+       this.getBlog()
     },
         methods:{
           meDate(val){
               return common.myDate(val,5)
           },
-            getData(page=1){
-             axios({
-            url:'https://ku.qingnian8.com/dataApi/blog/showBlog.php',
-            params:{
+            getBlog(page=1){
+             this.$http.get(
+          "/api/blog/getBlog",
+          {
+             params:{
                 num:10,
                 page
             }
-        }).then(res=>{
+          },
+        ).then(res=>{
             this.blogArr=res.data
             console.log(res.data)
         })
@@ -63,7 +68,7 @@ export default {
                 return
             }
             this.p--;
-            this.getData(this.p)
+            this.getBlog(this.p)
             this.goScrollTop()
         },
         nextClick(){
@@ -71,7 +76,7 @@ export default {
             if(this.blogArr.length==0){
                 alert('已经是最后一页了')
             }
-            this.getData(this.p)
+            this.getBlog(this.p)
             this.goScrollTop()
         },
         goScrollTop(){
