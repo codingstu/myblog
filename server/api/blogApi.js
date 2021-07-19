@@ -32,15 +32,36 @@ router.post('/addBlog', (req, res) => {
  });
 });
 
+
+// blog查询接口
+// get 请求
 router.get('/getBlog', (req, response) => {
-    let title = req.query.title
-    let author = req.query.author
-    let content = req.query.content
     
     // 查询语句
     let sql1 = "SELECT * FROM blog "
     conn.query(sql1, (err,res)=>{
 
+        if(err) {
+            throw err
+             return;
+            }
+            else{
+                console.log(res);
+                response.json(res)
+                
+            }
+    })
+});
+
+
+// blog删除接口
+// get 请求
+router.get('/delBlog', (req, response) => {
+    const params = req.body;
+    // 查询语句
+    let sql = "delete from blog "
+    conn.query(sql, (err,res)=>{
+        [params.title]
         if(err) {
             throw err
              return;

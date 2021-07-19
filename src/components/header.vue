@@ -8,6 +8,7 @@
       <router-link to="/AddBlog">添加博客</router-link>
       <router-link to="/login">登录</router-link>
       <router-link to="/register">注册</router-link>
+      <router-link to="/news">新闻</router-link>
     </div>
   </div>
 </template>

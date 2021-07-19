@@ -7,6 +7,7 @@
  // 导入路由模块
  const userApi = require('./api/userApi');
  const blogApi = require('./api/blogApi');
+ const newwsApi = require('./api/newsApi');
  // 端口号
  const port = 8888;
  // 注册全局解析中间件
@@ -15,6 +16,7 @@
  // 注册路由模块
  app.use('/api/user', userApi);
  app.use('/api/blog', blogApi);
+ app.use('/api/news', newwsApi);
 
  // 调用 app.listen() 启动服务器
  app.listen(port, () => console.log(`Example app listening on port 8888!`));

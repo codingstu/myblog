@@ -4,6 +4,7 @@ import ShowBlog from '../components/ShowBlog'
 import AddBlog from '../components/AddBlog'
 import login from '../commons/login'
 import register from '../commons/register'
+import news from '../components/news'
 
 Vue.use(VueRouter)
 
@@ -37,7 +38,11 @@ const routes = [
         title: 'register',
         type: '' // 不需要鉴权
       }
-    }
+    },
+    {
+      path:'/news',
+      component:news
+    },
 ]
 
 const router = new VueRouter({

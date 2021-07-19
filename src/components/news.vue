@@ -2,20 +2,18 @@
   <div class="showblog">
     <div class="list">
       <div class="time">{{ nowTime }}</div>
-      <div class="item" v-for="item in blogArr" :key="item.data">
+      <div class="item" v-for="item in newsArr" :key="item.data">
         <div class="top">
-          <div class="title">标题:{{ item.title }}</div>
-          <div class="time"></div>
+          <h3 class="title">标题:{{ item.title }}</h3>
+          <div class="title">标题:{{ item.title2 }}</div>
+         
         </div>
 
-        <div class="center">内容:{{ item.content }} <el-button type="primary" 
-        icon="el-icon-delete"
-        size='small' 
-         @click="del"></el-button></div>
+        <div class="center">内容:{{ item.href }}</div>
         <div class="bottom">
           <!-- <div class="classtify">分类：<span>{{item.classtify}}</span></div> -->
           <div class="author">
-            作者：<span>{{ item.author }}</span>
+            作者：<span>{{ item.time }}</span>
           </div>
         </div>
       </div>
@@ -39,31 +37,36 @@ export default {
   data() {
     return {
       title: "",
-      author: "",
-      content: "",
-      blogArr: [],
+      title2: "",
+      time: "",
+      href: "",
+      newsArr: [],
       p: 1,
       nowTime: "",
     };
   },
   mounted() {
-    this.getBlog(),
-     this.nowTimes();
+    this.getNews(), 
+    this.nowTimes();
   },
   beforeDestroy() {
     this.clear();
   },
   methods: {
-    getBlog(page = 1) {
+      getHref(val){
+	    return 'http://baidu.com?goodsId='+val
+	},
+
+    getNews(page = 1) {
       this.$http
-        .get("/api/blog/getBlog", {
+        .get("/api/news/getNews", {
           params: {
             num: 10,
             page,
           },
         })
         .then((res) => {
-          this.blogArr = res.data;
+          this.newsArr = res.data;
           console.log(res.data);
         });
     },
@@ -73,15 +76,15 @@ export default {
         return;
       }
       this.p--;
-      this.getBlog(this.p);
+      this.getNews(this.p);
       this.goScrollTop();
     },
     nextClick() {
       this.p++;
-      if (this.blogArr.length == 0) {
+      if (this.newsArr.length == 0) {
         alert("已经是最后一页了");
       }
-      this.getBlog(this.p);
+      this.getNews(this.p);
       this.goScrollTop();
     },
     goScrollTop() {
@@ -138,35 +141,6 @@ export default {
       clearInterval(this.nowTimes);
       this.nowTimes = null;
     },
-    del() {
-            const title=title;
-            const author=author;
-            const content= content;
-         this.$http.get(
-          "/api/blog/delBlog",
-          {
-            title: title,
-            author: author,
-            content: content,
-          },
-        )
-        .then((res) => {
-          console.log(res);
-          if (res.status == 200) {
-           this.$message({
-                message: "删除成功",
-                type: "warning",
-              });
-              this.getBlog()
-          } else {
-            alert(msg);
-            console.log(msg);
-          }
-        });
-            
-            
-     
-    },
   },
 };
 </script>
@@ -178,7 +152,6 @@ export default {
     padding: 40px;
     .item {
       margin-bottom: 40px;
-      border:1px solid rgb(146, 145, 145); 
       .top {
         display: flex;
         justify-content: space-between;
