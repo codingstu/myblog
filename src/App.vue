@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <Header/>
+   
     <router-view></router-view>
-    <Footer/>
+   
     
   </div>
 </template>
@@ -15,7 +15,6 @@ import router from './router/index'
 export default {
 name:'App',
 components:{
-  Header,
   Footer,
   router
 }

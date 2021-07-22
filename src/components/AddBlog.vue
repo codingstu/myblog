@@ -1,5 +1,6 @@
 <template>
   <div class="addBlog">
+    <Header/>
     <div class="addMain">
       <div class="row">
         <div class="text">博客标题：</div>
@@ -50,6 +51,7 @@
 </template>
 
 <script>
+import Header from './header'
 export default {
   data(){
     return{
@@ -59,6 +61,9 @@ export default {
         content:'',
       },
   }
+},
+components:{
+  Header
 },
   mounted(){
   },
@@ -126,10 +131,7 @@ textarea,
 select {
   outline: none;
 }
-.addBlog {
-  padding: 50px 30px;
-  min-height: 830px;
-}
+
 .addMain {
   padding: 0 80px;
   font-size: 18px;

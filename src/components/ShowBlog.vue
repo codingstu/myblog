@@ -1,17 +1,16 @@
 <template>
   <div class="showblog">
+    <Header />
     <div class="list">
       <div class="time">{{ nowTime }}</div>
-      <div class="item" v-for="item in blogArr" :key="item.data">
+      <div class="item" v-for="item in blogArr" :key="item.title">
+        <el-button @click="del()">删除</el-button>
         <div class="top">
           <div class="title">标题:{{ item.title }}</div>
           <div class="time"></div>
         </div>
 
-        <div class="center">内容:{{ item.content }} <el-button type="primary" 
-        icon="el-icon-delete"
-        size='small' 
-         @click="del"></el-button></div>
+        <div class="center">内容:{{ item.content }}</div>
         <div class="bottom">
           <!-- <div class="classtify">分类：<span>{{item.classtify}}</span></div> -->
           <div class="author">
@@ -31,7 +30,7 @@
 <script>
 import axios from "axios";
 import common from "../assets/js/common";
-
+import Header from "./header";
 console.log(common.myDate("1622184695908"));
 
 export default {
@@ -41,14 +40,16 @@ export default {
       title: "",
       author: "",
       content: "",
-      blogArr: [],
+      blogArr: [{ title: "" }, { author: "" }, { content: "" }],
       p: 1,
       nowTime: "",
     };
   },
+  components: {
+    Header,
+  },
   mounted() {
-    this.getBlog(),
-     this.nowTimes();
+    this.getBlog(), this.nowTimes();
   },
   beforeDestroy() {
     this.clear();
@@ -139,33 +140,19 @@ export default {
       this.nowTimes = null;
     },
     del() {
-            const title=title;
-            const author=author;
-            const content= content;
-         this.$http.get(
-          "/api/blog/delBlog",
-          {
+     var title = this.blogArr.title;
+      this.$http
+        .post("/api/blog/delBlog", {
             title: title,
-            author: author,
-            content: content,
-          },
-        )
+        })
         .then((res) => {
           console.log(res);
-          if (res.status == 200) {
-           this.$message({
-                message: "删除成功",
-                type: "warning",
-              });
-              this.getBlog()
-          } else {
-            alert(msg);
-            console.log(msg);
-          }
-        });
-            
-            
-     
+          if (res.title == title) {
+            this.getBlog();
+          } 
+        }).catch(function (error) {
+          console.log(error);
+        });;
     },
   },
 };
@@ -178,7 +165,7 @@ export default {
     padding: 40px;
     .item {
       margin-bottom: 40px;
-      border:1px solid rgb(146, 145, 145); 
+      border: 1px solid rgb(146, 145, 145);
       .top {
         display: flex;
         justify-content: space-between;

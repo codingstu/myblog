@@ -53,27 +53,23 @@ router.get('/getBlog', (req, response) => {
     })
 });
 
-
 // blog删除接口
-// get 请求
-router.get('/delBlog', (req, response) => {
-    const params = req.body;
-    // 查询语句
-    let sql = "delete from blog "
-    conn.query(sql, (err,res)=>{
-        [params.title]
-        if(err) {
-            throw err
-             return;
-            }
-            else{
-                console.log(res);
-                response.json(res)
-                
-            }
-    })
-});
+// post 请求
 
+router.post('/delBlog',
+         (req, res) => {
+    // var title = req.body.title;
+    
+    const sql = 'delete from blog limit 1'
+    conn.query(sql,(err, result) => {
+        if (err) return res.json({err_code: 1, message: err, affectedRows: 0});
+        if (result) {
+            res.json({result_code: 0, message: '删除成功', affectedRows: result.affectedRows})
+        }
+    })
+ 
+   
+   });
 
 
 module.exports = router;

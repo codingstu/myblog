@@ -1,4 +1,5 @@
 <template>
+<div class="login">
   <el-form label-width="100px" class="demo-ruleForm">
     <el-form-item label="用户名">
       <el-input type="text" v-model="username"></el-input>
@@ -7,10 +8,12 @@
       <el-input type="password" v-model="password"></el-input>
     </el-form-item>
    
-    <el-form-item>
-      <el-button type="primary" @click="getUser">登录</el-button>
+    <el-form-item class="btn">
+      <el-button type="primary" @click="getUser" class="loginbtn">登录</el-button>
+      <el-button type="text" @click="loginClick" class="registerbtn">没有账号，去注册</el-button>
     </el-form-item>
   </el-form>
+  </div>
 </template>
 <script>
 
@@ -58,7 +61,33 @@ mounted(){
           }
         
       })
+    },
+    loginClick(){
+      this.$router.push('/register')
     }
   },
 };
 </script>
+
+
+<style scoped>
+  .login {
+  width: 500px;
+  margin: 100px auto;
+  border: 1px solid #efefef;
+  border-radius: 30px;
+  padding: 20px;
+}
+h4 {
+  text-align: center;
+}
+.loginbtn {
+  width: 100%;
+}
+.registerbtn{
+   width: 100%;
+}
+.btn{
+  text-align: center;
+}
+</style>

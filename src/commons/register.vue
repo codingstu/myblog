@@ -1,5 +1,6 @@
 <template>
-  <el-form label-width="100px" class="demo-ruleForm">
+<div class="register">
+   <el-form label-width="100px" class="demo-ruleForm">
     <el-form-item label="用户名">
       <el-input type="text" v-model="username"></el-input>
     </el-form-item>
@@ -9,10 +10,13 @@
     <el-form-item label="确认密码">
       <el-input type="password" v-model="checkpwd"></el-input>
     </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="addUser">注册</el-button>
+    <el-form-item class="btn">
+      <el-button type="primary" @click="addUser" class="registerbtn">注册</el-button>
+      <el-button type="text" @click="loginClick" class="loginbtn">已有账号，去登录</el-button>
     </el-form-item>
   </el-form>
+</div>
+ 
 </template>
 <script>
 import { Message } from "element-ui";
@@ -119,6 +123,31 @@ export default {
             
      
     },
+    loginClick(){
+      this.$router.push('/login')
+    }
   },
 };
 </script>
+
+<style scoped>
+  .register {
+  width: 500px;
+  margin: 100px auto;
+  border: 1px solid #efefef;
+  border-radius: 30px;
+  padding: 20px;
+}
+h4 {
+  text-align: center;
+}
+.registerbtn {
+  width: 100%;
+}
+.loginbtn {
+  width: 100%;
+}
+.btn{
+  text-align: center;
+}
+</style>
