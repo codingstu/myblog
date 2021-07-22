@@ -57,12 +57,14 @@ router.get('/getBlog', (req, response) => {
 // post 请求
 
 router.post('/delBlog',
-         (req, res) => {
-    // var title = req.body.title;
-    
-    const sql = 'delete from blog limit 1'
-    conn.query(sql,(err, result) => {
-        if (err) return res.json({err_code: 1, message: err, affectedRows: 0});
+    (req, res) => {
+   
+    // console.log('删除', title)
+    // const sql = 'delete from blog ORDER BY title limit 1'
+    // let title = req.query.title;
+    let sql2 = 'DELETE FROM blog WHERE title=?'
+    conn.query(sql2,[req.body.title],(err, result) => {
+        if (err) return res.json({code: 404, message: err, affectedRows: 0});
         if (result) {
             res.json({result_code: 0, message: '删除成功', affectedRows: result.affectedRows})
         }

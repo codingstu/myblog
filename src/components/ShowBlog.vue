@@ -3,8 +3,9 @@
     <Header />
     <div class="list">
       <div class="time">{{ nowTime }}</div>
-      <div class="item" v-for="item in blogArr" :key="item.title">
-        <el-button @click="del()">删除</el-button>
+      
+      <!-- <div class="item" v-for="item in blogArr" :key="item.title">
+        
         <div class="top">
           <div class="title">标题:{{ item.title }}</div>
           <div class="time"></div>
@@ -12,13 +13,35 @@
 
         <div class="center">内容:{{ item.content }}</div>
         <div class="bottom">
-          <!-- <div class="classtify">分类：<span>{{item.classtify}}</span></div> -->
+          <div class="classtify">分类：<span>{{item.classtify}}</span></div>
           <div class="author">
             作者：<span>{{ item.author }}</span>
           </div>
         </div>
-      </div>
+      </div> -->
+
+       <!-- <div class="item" :data="blogArr" >
+         <el-button @click="del(item.title)">删除</el-button> 
+      <el-table v-for="item in blogArr" :key="item.title"> 
+      <el-table-column label="标题">{{item.title}}</el-table-column>
+      <el-table-column label="姓名" >{{item.author}} </el-table-column>
+      <el-table-column label="地址">{{item.content}}</el-table-column>
+      </el-table > -->
+
+<table class="item">
+    <tr v-for="item in blogArr" :key="item.title" >
+          <td >{{item.title}}</td>
+          <td >{{item.author}}</td>
+          <td >{{item.content}}</td>
+          <el-button @click.prevent="del(item.title)">删除</el-button> 
+          <!-- <td><a href="/api/blog/delBlog?title={$value.title}">del</a></td> -->
+    </tr>
+  </table>
+      
+      
+    <!-- </div> -->
     </div>
+    
     <div class="page">
       <div @click="previousClick">上一页</div>
       <p>第{{ p }}页</p>
@@ -37,10 +60,11 @@ export default {
   name: "ShowBlog",
   data() {
     return {
-      title: "",
-      author: "",
-      content: "",
-      blogArr: [{ title: "" }, { author: "" }, { content: "" }],
+      blogArr:{
+         title: "",
+         author: "",
+         content: "",
+      },
       p: 1,
       nowTime: "",
     };
@@ -139,22 +163,12 @@ export default {
       clearInterval(this.nowTimes);
       this.nowTimes = null;
     },
-    del() {
-     var title = this.blogArr.title;
-      this.$http
-        .post("/api/blog/delBlog", {
-            title: title,
-        })
-        .then((res) => {
-          console.log(res);
-          if (res.title == title) {
-            this.getBlog();
-          } 
-        }).catch(function (error) {
-          console.log(error);
-        });;
-    },
-  },
+   async del(title) {
+    //  let title = this.blogArr.title;
+     const {num}= await this.$http.post("/api/blog/delBlog",{title:title} )
+     this.getBlog()
+   }
+   }
 };
 </script>
 
